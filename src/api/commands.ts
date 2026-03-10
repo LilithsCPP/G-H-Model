@@ -60,7 +60,7 @@ export const commands = {
 
 export const sendCommand = async(command: DeviceCommandRequest) => {
     try{
-        const response = await apiClient.post('/api/device/control', command);
+        const response = await apiClient.post('/controls/command', command);
         return response;
     } catch(error){
         console.error('Cant send command | Error:', error);
