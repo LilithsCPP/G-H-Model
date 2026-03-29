@@ -1,33 +1,35 @@
-const API_BASE = 'http://localhost:8000';
+import type { ApiResponse } from "../types/type";
 
-class ApiClient {
+export class Api {
+    private baseURL: string;
 
-private baseUrl: string;
+    constructor() {
+        this.baseURL = "http://192.168.1.37:8000"; 
+    }
 
-constructor(baseUrl: string){
-    this.baseUrl = baseUrl;
+    private async request<T>(endpoint: string, options: RequestInit): Promise<ApiResponse<T>> {
+        const url = `${this.baseURL}${endpoint}`;
+        
+        const response = await fetch(url, {
+            ...options,
+            headers: {
+                "Content-Type": "application/json",
+                ...options.headers,
+            },
+        });
+
+        const data = await response.json();
+        return {
+            data,
+            status: response.status,
+            ok: response.ok
+        };
+    }
+
+    async post<T>(endpoint: string, body?: any): Promise<ApiResponse<T>> {
+        return this.request<T>(endpoint, {
+            method: 'POST',
+            body: body ? JSON.stringify(body) : undefined,
+        });
+    }
 }
-
-
-async get<T>(endpoint: string): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${endpoint}`);
-        if(!response.ok) throw Error(`GET request got error: ${response.status}`);
-    return response.json();
-}
-
-
-async post<T>(endpoint: string, data: any): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    });
-        if(!response.ok) throw Error(`POST request got error: ${response.status}`);
-    return response.json();
-}
-
-
-
-}
-
-export const apiClient = new ApiClient(API_BASE);
