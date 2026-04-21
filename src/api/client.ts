@@ -4,7 +4,8 @@ export class Api {
     private baseURL: string;
 
     constructor() {
-        this.baseURL = "http://192.168.1.37:8000"; 
+        // this.baseURL = "http://192.168.1.37:8000"; 
+        this.baseURL = "http://127.0.0.1:8000"; 
     }
 
     private async request<T>(endpoint: string, options: RequestInit): Promise<ApiResponse<T>> {

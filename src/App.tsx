@@ -1,46 +1,67 @@
-import { Api } from "./api/client";
 import './style/style.css';
-
-const api = new Api();
-
-const releTurnOff = () => api.post("/relay/0"); // выключить реле
-const releTurnOn = () => api.post("/relay/1"); // включить реле
-const getWaterSensor = () => api.get("/sensor/hubidity/"); // получить данные о влажности
-const getTempSensor = () => api.get("/sensor/temperature/"); // получить данные о температуре
+import { Requests } from "./api/user";
 
 export function App(){
 
-    const releTurnOn = async () => {};
+    const {
+      ReleTurnOn,
+      ReleTurnOff,
+      GetWaterSensor,
+      GetTempSensor
+    } = Requests();
 
-    const releTurnOff = async () => {};
+    const releTurnOn = async () => {
+      try { 
+            const response = await ReleTurnOn();
+            console.log('реле включено: ', response);
 
-    const getWaterSensor = async () => {};
+
+        }catch(error){
+            console.log('error: ', error);
+            alert('ERROR');
+        }
+    };
+
+    const releTurnOff = async () => {
+      try { 
+            const response = await ReleTurnOff();
+            console.log('реле выключено: ', response);
+
+
+        }catch(error){
+            console.log('error: ', error);
+            alert('ERROR');
+        }
+    };
+
+    const getWaterSensor = async () => {
+      try { 
+            const response = await GetWaterSensor();
+            console.log('реле выключено: ', response);
+
+
+        }catch(error){
+            console.log('error: ', error);
+            alert('ERROR');
+        }
+    };
     
-    const getTempSensor = async () => {};
-
-    // const handleTurnOff = async () => {
-    //     try { 
-    //         const response = await turnOff();
-    //         console.log('реле выключено: ', response);
+    const getTempSensor = async () => {
+      try { 
+            const response = await GetTempSensor();
+            console.log('реле выключено: ', response);
 
 
-    //     }catch(error){
-    //         console.log('error: ', error);
-    //         alert('ERROR');
-    //     }
-    // };
+        }catch(error){
+            console.log('error: ', error);
+            alert('ERROR');
+        }
+    };
 
-    // const handleTurnOn = async () => {
-    //     try { 
-    //         const response = await turnOn();
-    //         console.log('Реле выключено: ', response);
-
-
-    //     }catch(error){
-    //         console.log('error: ', error);
-    //         alert('ERROR');
-    //     }
-    // };
+    const refresh = async () => {
+      await getWaterSensor();
+      await getTempSensor();
+    }
 
     return(
         <>
@@ -50,11 +71,13 @@ export function App(){
 
       <div className="Container">
         <div className="menu">
-          {/* <button className="btn-menu" type="button"></button> */}
+          <h1>Settings</h1>
+          <button onClick={releTurnOn} className="btn-menu" type="button">ON</button>
+          <button onClick={releTurnOff} className="btn-menu" type="button">OFF</button>
         </div>
 
         <div className="main">
-          <button className="btn-ref" type="button"></button>
+          <button onClick={refresh} className="btn-ref" type="button"></button>
         </div>
       </div>
 
