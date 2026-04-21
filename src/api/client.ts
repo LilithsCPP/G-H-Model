@@ -32,4 +32,11 @@ export class Api {
             body: body ? JSON.stringify(body) : undefined,
         });
     }
+
+    async get<T>(endpoint: string, body?: any): Promise<ApiResponse<T>> {
+        return this.request<T>(endpoint, {
+            method: 'GET',
+            body: body ? JSON.stringify(body) : undefined,
+        });
+    }
 }
