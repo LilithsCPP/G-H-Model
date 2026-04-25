@@ -1,13 +1,15 @@
-export interface Led {
-    state: string;
-}
-
 export interface Relay {
     state: string;
 }
 
+export interface SensorData {
+    humidity: string | number;
+    temperature: string | number;
+    shine: string | number;
+}
+
 // sensor_1 is 
-export interface Sensor_1 {
+export interface Water_Sensor {
     state: string;
 }
 
@@ -32,3 +34,4 @@ export interface ApiResponse<T> {
     status?: number;
     ok?: boolean;
 }
+
